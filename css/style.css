@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    opacity: 1;
+    overflow-y: scroll;
+    margin: 0;
+}
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+li{
+    list-style-type: none;
+}
+h4{
+    font-size: 1.275rem;
+}
+/* admin dashboard */
+.wrapper{
+    align-items: stretch;
+    display: flex;
+    width: 100%;
+}
+#sidebar{
+    max-width: 264px;
+    min-width: 264px;
+    background: #eeeeee;
+    transition: all 0.35s ease-in-out;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    width: 100%;
+    background: #fff;
+}
+
+/* Sidebar Elements style */
+.sidebar-logo{
+    padding: 1.15rem;
+}
+.sidebar-logo a{
+    color: #121212;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.sidebar-nav{
+    flex-grow: 1;
+    list-style: none;
+}
+.sidebar-header{
+    color: #121212;
+    font-size: 1rem;
+    padding: 1.5rem 1.5rem .375rem 0;
+}
+a.sidebar-link{
+    padding: .1rem 0 .99rem 0;
+    color: #121212;
+    position: relative;
+    display: block;
+    font-size: 0.875rem;
+}
+/* the sidebar link icon */
+.sidebar-link[data-bs-toggle="collapse"]::after{
+    border: solid;
+    border-width: 0rem 0.075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 3px;
+    position: absolute;
+    right: 3rem;
+    top: .6rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after{
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+.navbar-expand .navbar-nav{
+    margin-left: auto;
+}
+.content{
+    flex: 1;
+    max-width: 100vw;
+    width: 100vw;
+}
+@media (min-width:768px){
+    .content{
+        max-width: auto;
+        width: auto;
+    }
+}
+.card{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    margin-bottom: 24px;
+}
+.illustration{
+    background-color: lightblue;
+    color: #121212;
+}
+.illustration-img{
+    max-width: 150px;
+    width: 100%;
+}
+/* sidebar toggle */
+#sidebar.collapsed{
+    margin-left: -264px;
+}
+
+/* Footer */
+@media (max-width:767.97px){
+    .navbar,
+    footer{
+        width:100vw ;
+    }
+
+}

@@ -22,10 +22,10 @@
                        Admin Menu
                     </li>
                     <li class="sidebar-item">
-                        <a href="" class="sidebar-link">
+                        <a href="" class="sidebar-link" onclick="changePage('main-dashboard')">
                             <i class="fa-solid fa-list"></i>
                             Dashboard
-                    </a>
+                        </a>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link collapsed" data-bs-target="#doctor" data-bs-toggle="collapse" aria-expanded="false">
                                 <i class="fa-solid fa-user-doctor"></i>
@@ -33,13 +33,13 @@
                             </a>
                         <ul id="doctor" class="sidebar-dropdown accordion-collapse collapse list-unstyled" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="#">
+                                <a class="sidebar-link" href="#" onclick="changePage('add-doctor')">
                                     <i class="fa-solid fa-plus"></i>
                                     Add Doctor
                                </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="#">
+                                <a class="sidebar-link" href="#" onclick="changePage('view-doctor')">
                                     <i class="fa-solid fa-street-view"></i>
                                     View Doctor
                                </a>
@@ -54,13 +54,13 @@
                         </a>
                         <ul id="patient" class="sidebar-dropdown accordion-collapse collapse list-unstyled" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="#">
+                                <a class="sidebar-link" href="#" onclick="changePage('add-patient')">
                                     <i class="fa-solid fa-plus"></i>
                                     Add Patient
                                </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="#">
+                                <a class="sidebar-link" href="#" onclick="changePage('view-patient')">
                                     <i class="fa-solid fa-street-view"></i>
                                     View Patient
                                </a>
@@ -124,8 +124,8 @@
                     </ul>
                 </div>
             </nav>
-            <main class="content px-3 py-2">
-                <div class="container-fluid">
+            <main class="content px-3 py-2" id="main-dashboard">
+                <div class="container-fluid hidden dashactive">
                     <div class="mb-3">
                         <h4>Admin Dashboard</h4>
                     </div>
@@ -172,13 +172,103 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="container">
+                        <h3>Dashboard</h3>
+                        <p>This is a shortcut dashboard for you</p>
+                        <div class="row custom-row">
+                            <div class="card custom-width bg-success text-white col-md-3 col-sm-6  mb-4">
+                                <img src="img/doctor.png" class="card-img-top img-fluid" alt="doctor-icon">
+                                <div class="card-body">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col">
+                                            <h4 class="card-title">Doctor</h4>
+                                        </div>
+                                        <div class="col">
+                                            <span class="ml-3">1</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="changePage('add-doctor')" class="btn btn-secondary my-2">Add Doctor</button>
+                                    <button onclick="changePage('view-doctor')" class="btn btn-info">View Doctor</button>
+                                </div>
+                            </div>
+                            <div class="card custom-width bg-dark text-white col-md-3 col-sm-6  mb-4">
+                                <img src="img/patient.png" class="card-img-top img-fluid" alt="patient-icon">
+                                <div class="card-body">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col">
+                                            <h4 class="card-title">Patient</h4>
+                                        </div>
+                                        <div class="col">
+                                            <span class="ml-3">1</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button onclick="changePage('add-patient')" class="btn btn-primary my-2">Add Patient</button>
+                                    <button onclick="changePage('view-patient')" class="btn btn-primary">View Patient</button>
+                                </div>
+                            </div>
+                   
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden" id="add-doctor">
+                    <div class="container my-3">
+                        <div class="card">
+                            <div class="card-header p-4">
+                                <h4 class="mb-0">Add Doctor</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="add-doctor.php" method="POST">
+                                    <div class="mb-3">
+                                        <label for="doctorname" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="doctorname" name="doctorname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="doctorage" class="form-label">Age</label>
+                                        <input type="text" class="form-control col-xs-3" id="doctorage" name="doctorage">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">Sex</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctormale">
+                                            <label class="form-check-label" for="doctormale">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctorfemale">
+                                            <label class="form-check-label" for="doctorfemale">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="doctorphone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="doctorphone" name="doctorphone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="doctoremail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="doctoremail" name="doctoremail">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="doctoraddress" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="doctoraddress" name="doctoraddress">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="doctorpassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="doctorpassword" name="doctorpassword">
+                                    </div>
+                                    <button type="submit" name="add-doctor" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden" id="view-doctor">
                     <!-- table  -->
                     <div class="card border-0">
                         <div class="card-header">
-                            <h5 class="card-title">
+                            <h5 class="card-title mb-3">
                                 Basic Table
                             </h5>
-                            <h6 class="card-subtitle text-muted">
+                            <h6 class="card-subtitle text-muted mb-3">
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum architecto voluptatum eaque, eum ipsam quibusdam et obcaecati corrupti magnam blanditiis expedita, minima molestiae tempora quasi voluptas sit numquam quis quia? Modi sed possimus blanditiis impedit, esse vitae, provident animi vel adipisci quibusdam, deserunt voluptate ipsam ullam. Velit dolore aliquid facilis.
                             </h6>
                         </div>
@@ -186,7 +276,100 @@
                             <table class="table">
                                 <thead>
                                   <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">id</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Handle</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden" id="add-patient">
+                    <div class="container my-3">
+                        <div class="card">
+                            <div class="card-header p-4">
+                                <h4 class="mb-0">Add Patient</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="#" method="POST">
+                                    <div class="mb-3">
+                                        <label for="patientname" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="patientname" name="patientname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patientage" class="form-label">Age</label>
+                                        <input type="text" class="form-control col-xs-3" id="patientage" name="patientage">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">Sex</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="patientmale">
+                                            <label class="form-check-label" for="patientmale">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="patientfemale">
+                                            <label class="form-check-label" for="patientfemale">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patientphone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="patientphone" name="patientphone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patientemail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="patientemail" name="patientemail">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patientaddress" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="patientaddress" name="patientaddress">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patientpassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="patientpassword" name="patientpassword">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden" id="view-patient">
+                    <!-- table  -->
+                    <div class="card border-0">
+                        <div class="card-header">
+                            <h5 class="card-title mb-3">
+                                Basic Table
+                            </h5>
+                            <h6 class="card-subtitle text-muted mb-3">
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum architecto voluptatum eaque, eum ipsam quibusdam et obcaecati corrupti magnam blanditiis expedita, minima molestiae tempora quasi voluptas sit numquam quis quia? Modi sed possimus blanditiis impedit, esse vitae, provident animi vel adipisci quibusdam, deserunt voluptate ipsam ullam. Velit dolore aliquid facilis.
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">id</th>
                                     <th scope="col">First</th>
                                     <th scope="col">Last</th>
                                     <th scope="col">Handle</th>

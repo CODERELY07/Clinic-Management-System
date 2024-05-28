@@ -1,3 +1,93 @@
+<?php
+    session_start();
+    require_once 'connection/connection.php';
+    $alertMessage='';
+
+    if(isset($_POST['add-doctor'])){
+        $name = $_POST['doctorname'];
+        $age = $_POST['doctorage'];
+       // Check if 'doctorgender' key exists in $_POST
+       $gender = isset($_POST['doctorgender']) ? $_POST['doctorgender'] : '';
+        $specialization = $_POST['specialization'];
+        $phone = $_POST['doctorphone'];
+        $email = $_POST['doctoremail'];
+        $address = $_POST['doctoraddress'];
+        $password = $_POST['doctorpassword'];
+
+        $query = "INSERT INTO doctor (name,age,gender,phone,email,address,specialization,password) VALUES('$name',$age,'$gender','$phone','$email','$address','$specialization','$password')";
+        
+        $result = mysqli_query($conn,$query);
+
+
+        if ($result) {
+            // Set the success message
+            $_SESSION['alertMessage'] = "<div class='alert alert-success alert-dismissible'>
+                                <strong>Success!</strong> Data Inserted Successfully.
+                                <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                            </div>";
+        } else {
+            // Set the error message
+            $_SESSION['alertMessage'] = "<div class='alert alert-danger alert-dismissible'>
+                                <strong>Error!</strong> Failed to insert data.
+                                <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                            </div>";
+        }
+
+        // Redirect to the same page to prevent form resubmission
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit; // Stop further execution
+    }
+
+    //patient-submit
+    
+    if(isset($_POST['patient-submit'])){
+        $name = $_POST['patientname'];
+        $age = $_POST['patientage'];
+        $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
+        $phone = $_POST['patientphone'];
+        $email = $_POST['patientemail'];
+        $address = $_POST['patientaddress'];
+        $password = $_POST['patientpassword'];
+
+        $query = "INSERT INTO patient (name,age,gender,phone,email,addreess,password) VALUES ('$name','$age','$gender','$phone','$email','$address','$password')";
+
+        $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
+
+
+        if ($result) {
+            // Set the success message
+            $_SESSION['alertMessage'] = "<div class='alert alert-success alert-dismissible'>
+                                <strong>Success!</strong> Data Inserted Successfully.
+                                <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                            </div>";
+        } else {
+            // Set the error message
+            $_SESSION['alertMessage'] = "<div class='alert alert-danger alert-dismissible'>
+                                <strong>Error!</strong> Failed to insert data.
+                                <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                            </div>";
+        }
+        // Redirect to the same page to prevent form resubmission
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit; // Stop further execution
+    }
+
+    // Check if there's an alert message in the session
+    if (isset($_SESSION['alertMessage'])) {
+        // Retrieve the alert message
+        $alertMessage = $_SESSION['alertMessage'];
+        // Clear the session variable
+        unset($_SESSION['alertMessage']);
+    }
+    
+
+    //doctor view
+    $doctors_query = "SELECT * FROM doctor";
+    $doctors_result = mysqli_query($conn, $doctors_query);
+    //patient view
+    $patient_query = "SELECT * FROM patient";
+    $patient_result = mysqli_query($conn, $patient_query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +100,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <div style="position:absolute;top:0;left:0;width:100%;z-index:99" class="text-center">
+        <?php echo $alertMessage; ?>
+    </div>
     <div class="wrapper">
         <aside id="sidebar">
            
@@ -219,25 +312,34 @@
                                 <h4 class="mb-0">Add Doctor</h4>
                             </div>
                             <div class="card-body">
-                                <form action="add-doctor.php" method="POST">
+                                <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
                                     <div class="mb-3">
                                         <label for="doctorname" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="doctorname" name="doctorname">
                                     </div>
                                     <div class="mb-3">
                                         <label for="doctorage" class="form-label">Age</label>
-                                        <input type="text" class="form-control col-xs-3" id="doctorage" name="doctorage">
+                                        <input type="number" class="form-control col-xs-3" id="doctorage" name="doctorage">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label d-block">Sex</label>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctormale">
+                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctormale" value="Male">
                                             <label class="form-check-label" for="doctormale">Male</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctorfemale">
+                                            <input class="form-check-input" type="radio" name="doctorgender" id="doctorfemale" value="Male">
                                             <label class="form-check-label" for="doctorfemale">Female</label>
                                         </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="specialization" class="form-label">Specialization</label>
+                                        <select class="form-control" name="specialization" id="specialization">
+                                            <option value="" selected hidded>Select Specialization</option>
+                                            <option value="Cardiologist">Cardiologist</option>
+                                            <option value="Neurologist">Neurologist</option>
+                                            <option value="Urologist">Urologist</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="doctorphone" class="form-label">Phone</label>
@@ -266,7 +368,7 @@
                     <div class="card border-0">
                         <div class="card-header">
                             <h5 class="card-title mb-3">
-                                Basic Table
+                                Doctors
                             </h5>
                             <h6 class="card-subtitle text-muted mb-3">
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum architecto voluptatum eaque, eum ipsam quibusdam et obcaecati corrupti magnam blanditiis expedita, minima molestiae tempora quasi voluptas sit numquam quis quia? Modi sed possimus blanditiis impedit, esse vitae, provident animi vel adipisci quibusdam, deserunt voluptate ipsam ullam. Velit dolore aliquid facilis.
@@ -274,34 +376,43 @@
                         </div>
                         <div class="card-body">
                             <table class="table">
-                                <thead>
+                                <thead class="thead-dark">
                                   <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Doctor Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Specialization</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
+                                <?php
+                                
+                                    if(mysqli_num_rows($doctors_result) > 0){
+
+                                  
+                                    while ($row = mysqli_fetch_assoc($doctors_result)) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $row['id']?></td>
+                                        <td><?php echo $row['name']?></td>
+                                        <td><?php echo $row['age']?></td>
+                                        <td><?php echo $row['phone']?></td>
+                                        <td><?php echo $row['gender']?></td>
+                                        <td><?php echo $row['address']?></td>
+                                        <td><?php echo $row['specialization']?></td>
+                                    </tr>
+                                <?php
+                                    }
+                                }else{
+                                    echo "<tr><td colspan='7'>No Doctors</td></tr>";
+                                }
+                                ?>
+
                                 </tbody>
-                              </table>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -312,26 +423,27 @@
                                 <h4 class="mb-0">Add Patient</h4>
                             </div>
                             <div class="card-body">
-                                <form action="#" method="POST">
+                                <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
                                     <div class="mb-3">
                                         <label for="patientname" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="patientname" name="patientname">
                                     </div>
                                     <div class="mb-3">
                                         <label for="patientage" class="form-label">Age</label>
-                                        <input type="text" class="form-control col-xs-3" id="patientage" name="patientage">
+                                        <input type="number" class="form-control col-xs-3" id="patientage" name="patientage">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label d-block">Sex</label>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="patientmale">
-                                            <label class="form-check-label" for="patientmale">Male</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="patientfemale">
-                                            <label class="form-check-label" for="patientfemale">Female</label>
-                                        </div>
+                                                <label class="form-label d-block">Sex</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="gender" id="patientmale" value="Male">
+                                                    <label class="form-check-label" for="patientmale">Male</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="gender" id="patientfemale" value="Female">
+                                                    <label class="form-check-label" for="patientfemale">Female</label>
+                                                </div>
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="patientphone" class="form-label">Phone</label>
                                         <input type="tel" class="form-control" id="patientphone" name="patientphone">
@@ -348,12 +460,13 @@
                                         <label for="patientpassword" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="patientpassword" name="patientpassword">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary" name="patient-submit">Save</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="hidden" id="view-patient">
                     <!-- table  -->
                     <div class="card border-0">
@@ -367,32 +480,41 @@
                         </div>
                         <div class="card-body">
                             <table class="table">
-                                <thead>
+                                <thead class="thead-dark">
                                   <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                  <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Doctor Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Address</th>
+                                  </tr>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
+                                <?php
+                                
+                                if(mysqli_num_rows($patient_result) > 0){
+
+                              
+                                while ($row = mysqli_fetch_assoc($patient_result)) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['id']?></td>
+                                    <td><?php echo $row['name']?></td>
+                                    <td><?php echo $row['age']?></td>
+                                    <td><?php echo $row['phone']?></td>
+                                    <td><?php echo $row['gender']?></td>
+                                    <td><?php echo $row['addreess']?></td>
+                                </tr>
+                                <?php
+                                    }
+                                }else{
+                                    echo "<tr><td colspan='7'>No Patient</td></tr>";
+                                }
+                                ?>
+
                                 </tbody>
                               </table>
                         </div>
@@ -430,6 +552,10 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <!-- Bootstrap JS -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

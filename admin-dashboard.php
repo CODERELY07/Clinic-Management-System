@@ -1,5 +1,11 @@
 <?php
     session_start();
+
+    if(!isset($_SESSION['admin_id'])){
+        header("Location:login.php");
+        exit();
+    }
+
     require_once 'connection/connection.php';
     $alertMessage='';
 
@@ -223,8 +229,7 @@
       <form action="code.php" method="post">
         <div class="modal-body">
             <div class="form-group mt-3">
-                <label for="dsa">sadadad</label>
-                <input type="text" id="patient_id" name="id_pat" class="form-control" >
+                <input type="hidden" id="patient_id" name="id_pat" class="form-control" >
             </div>
             <div class="mb-3">
                 <label for="patientname" class="form-label">Name</label>
@@ -328,36 +333,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- multi dropdown -->
-                    <li class="sidebar-header">
-                        Multi Level Menu
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-target="#multi-menu" data-bs-toggle="collapse" aria-expanded="false">
-                            multi dropdown
-                        </a>
-                        <ul id="multi-menu" class="sidebar-dropdown accordion-collapse collapse list-unstyled" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a class="sidebar-link collapased" href="#" data-bs-target="#level-1" data-bs-toggle="collapse" aria-expanded="false">
-                                    Level 1
-                               </a>
-                               <ul id="level-1" class="sidebar-dropdown accordion-collapse collapse list-unstyled">
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link" href="#">
-                                            <i class="fa-solid fa-plus"></i>
-                                            Level 1.1
-                                        </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a class="sidebar-link" href="#">
-                                            <i class="fa-solid fa-street-view"></i>
-                                            Level 1.2
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </aside>
@@ -378,9 +353,7 @@
                             </a>
                             <!-- dropdown menu end to make the dropdown inside -->
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Setting</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                               </ul>
                         </li>
                     </ul>
@@ -418,7 +391,7 @@
                                                 199
                                             </h4>
                                             <p class="mb-2">
-                                                Total Earnings
+                                                Total Patient
                                             </p>
                                             <div class="mb-0">
                                                 <span class="badge text-success me-2">

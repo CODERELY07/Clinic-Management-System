@@ -65,10 +65,10 @@
 
     if($update_query_run){
         $_SESSION['status'] = "Data Updated successfully";
-        header("Location: index.php");
+        header("Location: admin-dashboard.php");
     }else{
         $_SESSION['status'] = "Data not updated successfully";
-        header("Location: index.php");
+        header("Location: admin-dashboard.php");
     }
     
 
@@ -150,11 +150,9 @@ if(isset($_POST['click_patient_view_btn'])){
     $update_patient_query_run = mysqli_query($conn,$update_patient_query);
 
     if($update_patient_query_run){
-        die("update " . $conn->error);
-        header("Location: index.php");
+        header("Location: admin-dashboard.php");
     }else{
-        die("update not " . $conn->error);
-        header("Location: index.php");
+        header("Location: admin-dashboard.php");
     }
   }
 
